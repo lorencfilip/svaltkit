@@ -1,6 +1,32 @@
 <script>
+   import {fly} from 'svelte/transition';
+   import {page} from '$app/stores';
+   //const { chirdren } = $props();
+    const startTransition = () => {
+        document.body.classList.add('page-transitioning')
+    } 
+    const endTransition = () => {
+        document.body.classList.remove('page-transitioning')
+    } 
+
 </script>
 
-<main>
+<header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+    </nav>
+    <h1>Zde je šablona</h1>
+</header>
 
+{#key $page.url}
+<main
+in:fly={{ x: -200, duration: 300, delay: 300 }}
+    out:fly={{ x: 200, duration: 300 }}
+    onintrostart={startTransition}
+    onintroend={endTransition}
+    onoutrostart={startTransition}
+    onoutroend={endTransition}>
+    <slot />
 </main>
+{/key}
